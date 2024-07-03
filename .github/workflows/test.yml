@@ -1,0 +1,34 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    name: Test Ruby ${{ matrix.RUBY_VERSION }}
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        RUBY_VERSION: ["2.0", "2.1", "2.2", "2.3"]
+        DYNAMIC_UNO_RUBY_VERSION: ["3.0"]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.RUBY_VERSION }}
+          bundler-cache: true
+          bundler-version: 1.13.6
+
+      - name: Run Tests
+        run: bundle exec rake
