@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'tmpdir'
 
 describe SpawnPassthrough do
   it 'has a version number' do
